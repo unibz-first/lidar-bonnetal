@@ -152,25 +152,28 @@ class LaserScan:
     depth = np.linalg.norm(self.points, 2, axis=1)
     depth[depth == 0] = 0.0000001 #Stop divide by 0
 
-    # # thresholding by range (distance), ignore points that are far away, only consider points within the given range
-    # self.mask = depth > 30.0
+    # thresholding by range (distance), ignore points that are far away, only consider points within the given range
+    threshold_by_range = False
+    if threshold_by_range:
+      range_threshold = 30.0
+      self.mask = (depth > range_threshold)
 
-    # # get scan components
-    # scan_x = self.points[:, 0]
-    # scan_y = self.points[:, 1]
-    # scan_z = self.points[:, 2]
-
-    #
-    # depth[self.mask] = 0.00000001
-    # scan_x[self.mask] = 0
-    # scan_y[self.mask] = 0
-    # scan_z[self.mask] = 0
-    # self.remissions[self.mask] = 0
-
-    # get scan components
-    scan_x = self.points[:, 0]
-    scan_y = self.points[:, 1]
-    scan_z = self.points[:, 2]
+      # get scan components
+      scan_x = self.points[:, 0]
+      scan_y = self.points[:, 1]
+      scan_z = self.points[:, 2]
+      
+      depth[self.mask] = 0.00000001
+      scan_x[self.mask] = 0
+      scan_y[self.mask] = 0
+      scan_z[self.mask] = 0
+      self.remissions[self.mask] = 0
+      print("thresholding range and only training points within ", range_threshold, " meters!")
+    else:
+      # get scan components
+      scan_x = self.points[:, 0]
+      scan_y = self.points[:, 1]
+      scan_z = self.points[:, 2]
 
     # get angles of all points
     yaw = -np.arctan2(scan_y, scan_x)
