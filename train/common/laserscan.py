@@ -217,6 +217,7 @@ class LaserScan:
     self.proj_range[proj_y, proj_x] = depth
     self.proj_xyz[proj_y, proj_x] = points
     self.proj_remission[proj_y, proj_x] = remission
+    #  not every point in the point cloud will be project to a distinct range image pixel, which causes some of the proj_idx remain default value -1
     self.proj_idx[proj_y, proj_x] = indices
     self.proj_mask = (self.proj_idx > 0).astype(np.int32)
 
