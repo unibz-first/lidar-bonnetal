@@ -145,82 +145,82 @@ class SemanticKitti(Dataset):
 
 
     ##################laserscan projection stuff###########################
-    # laser parameters
-    fov_up = self.sensor_fov_up / 180.0 * np.pi      # field of view up in rad
-    fov_down = self.sensor_fov_down / 180.0 * np.pi  # field of view down in rad
-    fov = abs(fov_down) + abs(fov_up)  # get field of view total in rad
+    # # laser parameters
+    # fov_up = self.sensor_fov_up / 180.0 * np.pi      # field of view up in rad
+    # fov_down = self.sensor_fov_down / 180.0 * np.pi  # field of view down in rad
+    # fov = abs(fov_down) + abs(fov_up)  # get field of view total in rad
 
     # get depth of all points
     depth = np.linalg.norm(scan_points, 2, axis=1)
-    depth[depth == 0] = 0.0000001 #Stop divide by 0
+    # depth[depth == 0] = 0.0000001 #Stop divide by 0
 
-    # thresholding by range (distance), ignore points that are far away, only consider points within the given range
-    threshold_by_range = False # keep this as an option for future use
-    if threshold_by_range:
-      scan_mask = depth > 30.0
-      # get scan components
-      scan_x = scan_points[:, 0]
-      scan_y = scan_points[:, 1]
-      scan_z = scan_points[:, 2]
-      depth[scan_mask] = 0.00000001
-      scan_x[scan_mask] = 0
-      scan_y[scan_mask] = 0
-      scan_z[scan_mask] = 0
-      scan_remissions[scan_mask] = 0
-    else:
-      # get scan components
-      scan_x = scan_points[:, 0]
-      scan_y = scan_points[:, 1]
-      scan_z = scan_points[:, 2]
+    # # thresholding by range (distance), ignore points that are far away, only consider points within the given range
+    # threshold_by_range = False # keep this as an option for future use
+    # if threshold_by_range:
+    #   scan_mask = depth > 30.0
+    #   # get scan components
+    #   scan_x = scan_points[:, 0]
+    #   scan_y = scan_points[:, 1]
+    #   scan_z = scan_points[:, 2]
+    #   depth[scan_mask] = 0.00000001
+    #   scan_x[scan_mask] = 0
+    #   scan_y[scan_mask] = 0
+    #   scan_z[scan_mask] = 0
+    #   scan_remissions[scan_mask] = 0
+    # else:
+    #   # get scan components
+    #   scan_x = scan_points[:, 0]
+    #   scan_y = scan_points[:, 1]
+    #   scan_z = scan_points[:, 2]
 
-    yaw = -np.arctan2(scan_y, scan_x)
-    pitch = np.arcsin(scan_z / depth)
+    # yaw = -np.arctan2(scan_y, scan_x)
+    # pitch = np.arcsin(scan_z / depth)
 
-    # get projections in image coords
-    scan_proj_x = 0.5 * (yaw / np.pi + 1.0)          # in [0.0, 1.0]
-    scan_proj_y = 1.0 - (pitch + abs(fov_down)) / fov        # in [0.0, 1.0]
+    # # get projections in image coords
+    # scan_proj_x = 0.5 * (yaw / np.pi + 1.0)          # in [0.0, 1.0]
+    # scan_proj_y = 1.0 - (pitch + abs(fov_down)) / fov        # in [0.0, 1.0]
 
-    # scale to image size using angular resolution
-    scan_proj_x *= self.sensor_img_W                              # in [0.0, W]
-    scan_proj_y *= self.sensor_img_H                              # in [0.0, H]
+    # # scale to image size using angular resolution
+    # scan_proj_x *= self.sensor_img_W                              # in [0.0, W]
+    # scan_proj_y *= self.sensor_img_H                              # in [0.0, H]
 
-    # round and clamp for use as index
-    scan_proj_x = np.floor(scan_proj_x)
-    scan_proj_x = np.minimum(self.sensor_img_W - 1, scan_proj_x)
-    scan_proj_x[scan_proj_x < 0] = 0
-    scan_proj_x = np.maximum(0, scan_proj_x).astype(np.int32)   # in [0,W-1]
+    # # round and clamp for use as index
+    # scan_proj_x = np.floor(scan_proj_x)
+    # scan_proj_x = np.minimum(self.sensor_img_W - 1, scan_proj_x)
+    # scan_proj_x[scan_proj_x < 0] = 0
+    # scan_proj_x = np.maximum(0, scan_proj_x).astype(np.int32)   # in [0,W-1]
 
-    scan_proj_y = np.floor(scan_proj_y)
-    scan_proj_y = np.minimum(self.sensor_img_H - 1, scan_proj_y)
-    scan_proj_y[scan_proj_y < 0] = 0
-    scan_proj_y = np.maximum(0, scan_proj_y).astype(np.int32)   # in [0,H-1]
+    # scan_proj_y = np.floor(scan_proj_y)
+    # scan_proj_y = np.minimum(self.sensor_img_H - 1, scan_proj_y)
+    # scan_proj_y[scan_proj_y < 0] = 0
+    # scan_proj_y = np.maximum(0, scan_proj_y).astype(np.int32)   # in [0,H-1]
 
-    # order in decreasing depth -- removed
+    # # order in decreasing depth -- removed
     indices = np.arange(depth.shape[0])
 
-    # assing to images
-    # projected range image - [H,W] range (-1 is no data)
-    scan_proj_range = np.full((self.sensor_img_H, self.sensor_img_W), -1, dtype=np.float32)
-    scan_proj_range[scan_proj_y, scan_proj_x] = depth
-    # projected point cloud xyz - [H,W,3] xyz coord (-1 is no data)
-    scan_proj_xyz = np.full((self.sensor_img_H, self.sensor_img_W, 3), -1,dtype=np.float32)
-    scan_proj_xyz[scan_proj_y, scan_proj_x] = scan_points
-    # projected remission - [H,W] intensity (-1 is no data)
-    scan_proj_remission = np.full((self.sensor_img_H, self.sensor_img_W), -1,dtype=np.float32)
-    scan_proj_remission[scan_proj_y, scan_proj_x] = scan_remissions
-    # projected index (for each pixel, what I am in the pointcloud), [H,W] index (-1 is no data)
-    scan_proj_idx = np.full((self.sensor_img_H, self.sensor_img_W), -1,dtype=np.int32) 
-    scan_proj_idx[scan_proj_y, scan_proj_x] = indices
-    scan_proj_mask = (scan_proj_idx > 0).astype(np.int32)
+    # # assing to images
+    # # projected range image - [H,W] range (-1 is no data)
+    # scan_proj_range = np.full((self.sensor_img_H, self.sensor_img_W), -1, dtype=np.float32)
+    # scan_proj_range[scan_proj_y, scan_proj_x] = depth
+    # # projected point cloud xyz - [H,W,3] xyz coord (-1 is no data)
+    # scan_proj_xyz = np.full((self.sensor_img_H, self.sensor_img_W, 3), -1,dtype=np.float32)
+    # scan_proj_xyz[scan_proj_y, scan_proj_x] = scan_points
+    # # projected remission - [H,W] intensity (-1 is no data)
+    # scan_proj_remission = np.full((self.sensor_img_H, self.sensor_img_W), -1,dtype=np.float32)
+    # scan_proj_remission[scan_proj_y, scan_proj_x] = scan_remissions
+    # # projected index (for each pixel, what I am in the pointcloud), [H,W] index (-1 is no data)
+    # scan_proj_idx = np.full((self.sensor_img_H, self.sensor_img_W), -1,dtype=np.int32) 
+    # scan_proj_idx[scan_proj_y, scan_proj_x] = indices
+    # scan_proj_mask = (scan_proj_idx > 0).astype(np.int32)
 
-    # H = self.sensor_img_H
-    # W = self.sensor_img_W
-    # scan_proj_range = depth.reshape(H, W).astype(np.float32)
-    # scan_proj_xyz = scan_points.reshape((H, W, 3)).astype(np.float32)
-    # scan_proj_remission = scan_remissions.reshape(H, W).astype(np.float32)
-    # scan_proj_idx = indices.reshape(H, W).astype(np.int32)
-    # # mask containing for each pixel, if it contains a point or not
-    # scan_proj_mask = (scan_proj_range > 0).astype(np.int32)
+    H = self.sensor_img_H
+    W = self.sensor_img_W
+    scan_proj_range = depth.reshape(H, W).astype(np.float32)
+    scan_proj_xyz = scan_points.reshape((H, W, 3)).astype(np.float32)
+    scan_proj_remission = scan_remissions.reshape(H, W).astype(np.float32)
+    scan_proj_idx = indices.reshape(H, W).astype(np.int32)
+    # mask containing for each pixel, if it contains a point or not
+    scan_proj_mask = (scan_proj_range > 0).astype(np.int32)
     #####################################################################
 
 
@@ -289,9 +289,9 @@ class SemanticKitti(Dataset):
     else:
       proj_labels = []
     proj_x = torch.full([self.max_points], -1, dtype=torch.long)
-    proj_x[:unproj_n_points] = torch.from_numpy(scan_proj_x)
+    # proj_x[:unproj_n_points] = torch.from_numpy(scan_proj_x)
     proj_y = torch.full([self.max_points], -1, dtype=torch.long)
-    proj_y[:unproj_n_points] = torch.from_numpy(scan_proj_y)
+    # proj_y[:unproj_n_points] = torch.from_numpy(scan_proj_y)
     proj = torch.cat([proj_range.unsqueeze(0).clone(),
                       proj_xyz.clone().permute(2, 0, 1),
                       proj_remission.unsqueeze(0).clone()])
