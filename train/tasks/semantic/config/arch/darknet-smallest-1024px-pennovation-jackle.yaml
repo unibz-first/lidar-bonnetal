@@ -13,7 +13,7 @@ train:
   report_batch: 1        # every x batches, report loss
   report_epoch: 1        # every x epochs, report validation set
   epsilon_w: 0.001       # class weight w = 1 / (content + epsilon_w)
-  save_summary: False    # Summary of weight histograms for tensorboard
+  save_summary: False    # Summary of weight histograms for tensorboard -- Not working properly
   save_scans: True       # False doesn't save anything, True saves some
                          # sample images (one per batch of the last calculated batch)
                          # in log folder

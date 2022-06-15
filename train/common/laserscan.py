@@ -219,6 +219,7 @@ class LaserScan:
     self.proj_remission[proj_y, proj_x] = remission
     #  not every point in the point cloud will be project to a distinct range image pixel, which causes some of the proj_idx remain default value -1
     self.proj_idx[proj_y, proj_x] = indices
+    # here > 0 and >= 0 are equivalent since 0 will remain 0
     self.proj_mask = (self.proj_idx > 0).astype(np.int32)
 
 
@@ -361,7 +362,7 @@ class SemLaserScan(LaserScan):
 
   def do_label_projection(self):
     # only map colors to labels that exist
-    mask = self.proj_idx >= 0
+    mask = (self.proj_idx >= 0)
 
     # semantics
     self.proj_sem_label[mask] = self.sem_label[self.proj_idx[mask]]
