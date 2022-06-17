@@ -40,17 +40,25 @@ color_map: # bgr
 
 content: # as a ratio with the total number of points
   # raw stats from the data loader:
+
+  # Pennovation only (before June 17, 2022)
   #mean values of number points for each class / total points are:
   #[0.1851279  0.44469167 0.07906675 0.20659639 0.04173904 0.03609916
   # 0.00286886 0.00381022 0.         0.        ]
-  0: 0.1851279 #  0 : "unlabelled"
-  1: 0.44469167 #  1 : "road"
-  2: 0.07906675 #  2: "vegetation"
-  3: 0.20659639 #  3: "building"
-  4: 0.04173904  #  4: "grass-sidewalk
-  5: 0.03609916  #  5: "vehicle"
-  6: 0.00286886  #  6: "human"
-  7: 0.00381022  #  7: "gravel"
+
+  # Pennovation + WP (since June 17, 2022)
+  #  mean values of number points for each class / total points are:
+#  [ 0.2364372  0.26481532 0.17107211 0.10536941 0.17030154 0.01278725
+#    0.00235424 0.03686293 0.         0. ]
+
+  0: 0.2364372 #  0 : "unlabelled"
+  1: 0.26481532 #  1 : "road"
+  2: 0.17107211 #  2: "vegetation"
+  3: 0.10536941 #  3: "building"
+  4: 0.17030154  #  4: "grass-sidewalk
+  5: 0.01278725  #  5: "vehicle"
+  6: 0.00235424  #  6: "human"
+  7: 0.03686293  #  7: "gravel"
   8: 0.0  #  8: "tree_trunk"
   9: 0.0  #  9: "light_pole"
 
