@@ -131,7 +131,7 @@ def convert_images_to_labels_pcds(for_jackle):
 
         # convert scan image into pcd data format
         # Pass xyz to Open3D.o3d.geometry.PointCloud and visualize
-        pcd = o3d.geometry.PointCloud()
+        # pcd = o3d.geometry.PointCloud()
         x = scan[:,:,0].flatten()
         y = scan[:,:,1].flatten()
         z = scan[:,:,2].flatten()
@@ -168,7 +168,7 @@ def convert_images_to_labels_pcds(for_jackle):
             traceback.print_exc()
             raise Exception(colored("READ THIS: for this error, just comment out the two lines (should be line 443 and 444) in pypcd.py file!",'green'))
 
-        new_md = newpc.get_metadata()
+        # new_md = newpc.get_metadata()
         # setting intensity data
         newpc.pc_data['intensity'] = intensity
 
