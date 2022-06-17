@@ -141,25 +141,21 @@ for fname in fnames:
     mean = np.mean(xyz, axis=0)
     print(mean)
     intensity = scan[:,:,3].flatten()
-    pcd.points = o3d.utility.Vector3dVector(xyz)
 
-    # TODO(xu:) probably there is faster way to do this, currently using this because this is verified to be correct
-    # create a temp file to store intermediate point cloud
-    point_cloud_temp_fname = save_dir_point_cloud + "temp_pc" + "_" + str(fname_no_prefix) + ".pcd"
-    o3d.io.write_point_cloud(point_cloud_temp_fname, pcd, write_ascii=True)
 
-    # (REMOVED) HACK: color channel will be storing intensity information
-    # intensities = np.zeros((intensity.shape[0],3))
-    # intensities[:,0] = intensity
-    # using color to hack intensity (remission) is not doable, it will be casted into only two values, 0 and 1
-    # pcd.colors = o3d.utility.Vector3dVector(intensities)
+    #################################################################################removed due to being slow #####################################################################
+    # pcd.points = o3d.utility.Vector3dVector(xyz)
+    # point_cloud_temp_fname = save_dir_point_cloud + "temp_pc" + "_" + str(fname_no_prefix) + ".pcd"
+    # o3d.io.write_point_cloud(point_cloud_temp_fname, pcd, write_ascii=True)
+    # if os.path.exists(point_cloud_temp_fname):
+    #     pc = pypcd.PointCloud.from_path(point_cloud_temp_fname)
+    # else:
+    #     raise Exception(point_cloud_temp_fname + " does not exist!!! You can try to add time.sleep(0.1) after o3d.io.write_point_cloud...")
+    ###################################################################################################################################################################################
 
-    # add intensity using pypcd
-    if os.path.exists(point_cloud_temp_fname):
-        pc = pypcd.PointCloud.from_path(point_cloud_temp_fname)
-    else:
-        raise Exception(point_cloud_temp_fname + " does not exist!!! You can try to add time.sleep(0.1) after o3d.io.write_point_cloud...")
-
+    # faster approach
+    pc = pypcd.make_xyz_point_cloud(xyz)
+    pc.pc_data = pc.pc_data.flatten()
     # old_md = pc.get_metadata()
     # new_dt = [(f, pc.pc_data.dtype[f]) for f in pc.pc_data.dtype.fields]
     # new_data = [pc.pc_data[n] for n in pc.pc_data.dtype.names]
@@ -181,7 +177,7 @@ for fname in fnames:
     newpc.save_pcd(point_cloud_final_fname, compression='binary_compressed')
     # print("pcds are saved in converted_scans folder!")
     # remove intermediate point cloud
-    os.remove(point_cloud_temp_fname)
+    # os.remove(point_cloud_temp_fname)
 
     # save labels as an 1-d array in converted_labels folder
     label_converted = label_converted.ravel()
