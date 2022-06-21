@@ -42,12 +42,15 @@ def convert_images_to_labels_pcds(for_jackle):
     num_classes = 10
     stats = np.zeros((num_classes, len(fnames)))
     file_idx = 0
+    pc_size = -1
+    d = None
+
     for fname in fnames:
         fname_no_png = fname.split(".png")[0]
         fname_no_prefix = fname_no_png.split('/')[-1]
         scan_fname = data_dir + "scans/" + fname_no_prefix +".tiff"
         label_fname = data_dir + "labels/" + fname_no_prefix + ".png"
-        print("currently loading labels and range images for scan: ", scan_fname)
+        # print("currently loading labels and range images for scan: ", scan_fname)
 
         scan = cv2.imread(scan_fname, cv2.IMREAD_UNCHANGED)
         label = cv2.imread(label_fname)
@@ -140,7 +143,7 @@ def convert_images_to_labels_pcds(for_jackle):
         xyz[:,1] = y
         xyz[:,2] = z
         mean = np.mean(xyz, axis=0)
-        print(mean)
+        # print(mean)
         intensity = scan[:,:,3].flatten()
 
 
@@ -161,7 +164,21 @@ def convert_images_to_labels_pcds(for_jackle):
         # new_dt = [(f, pc.pc_data.dtype[f]) for f in pc.pc_data.dtype.fields]
         # new_data = [pc.pc_data[n] for n in pc.pc_data.dtype.names]
         md = {'fields': ['intensity'], 'count': [1], 'size': [4],'type': ['F']}
-        d = np.rec.fromarrays((np.random.random(len(pc.pc_data))))
+
+        #################################### Speed up by avoiding creating recarray multiple times, which is very slow #######################################################################
+        if pc_size == -1:
+            # initialize
+            pc_size = len(pc.pc_data)
+            d = np.rec.fromarrays((np.random.random(len(pc.pc_data))))
+        elif len(pc.pc_data) != pc_size:
+            print("different size point cloud received, recreating numpy.recarray, which is very slow!")
+            pc_size = len(pc.pc_data)
+            d = np.rec.fromarrays((np.random.random(len(pc.pc_data))))
+        # else:
+        #     # continue using existing d
+        #     print("point cloud size is the same, which is good!")
+        ###################################################################################################################################################################################
+
         try:
             newpc = pypcd.add_fields(pc, md, d)
         except:
@@ -193,7 +210,9 @@ def convert_images_to_labels_pcds(for_jackle):
     print("mean values of number of points for each class are: ")
     print(np.mean(stats, axis=1))
     print("mean values of number points for each class / total points are: ")
-    print(np.mean(stats, axis=1) / np.sum(np.mean(stats, axis=1)))
+    percent_array = np.mean(stats, axis=1) / np.sum(np.mean(stats, axis=1))
+    print(percent_array)
+    np.savetxt(data_dir + "class_points_divided_by_total_points.txt", percent_array)
 
 
 if __name__ == '__main__':
