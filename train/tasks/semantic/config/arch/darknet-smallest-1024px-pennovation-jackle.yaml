@@ -4,10 +4,10 @@
 train:
   loss: "xentropy"       # must be either xentropy or iou
   max_epochs: 150
-  lr: 0.01              # sgd learning rate
+  lr: 0.005              # sgd learning rate
   wup_epochs: 1          # warmup during first XX epochs (can be float)
   momentum: 0.9          # sgd momentum
-  lr_decay: 0.995         # learning rate decay per epoch after initial cycle (from min lr)
+  lr_decay: 0.99         # learning rate decay per epoch after initial cycle (from min lr)
   w_decay: 0.0001        # weight decay
   batch_size: 1          # batch size
   report_batch: 1        # every x batches, report loss
@@ -91,10 +91,10 @@ dataset:
       - 10.88
       - 0.23
       - -1.04
-      - 350
+      - 170
     img_stds: #range,x,y,z,signal
       - 12.32
       - 11.47
       - 6.91
       - 0.86
-      - 300
+      - 130
