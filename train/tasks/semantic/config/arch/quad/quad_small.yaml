@@ -28,10 +28,10 @@ backbone:
   input_depth:
     range: True
     xyz: True
-    remission: True
+    remission: False
   dropout: 0.01
   bn_d: 0.01
-  OS: 16 # output stride (only horizontally)
+  OS: 2 # output stride (only horizontally)
   train: False # train backbone?
   extra:
     layers: 21

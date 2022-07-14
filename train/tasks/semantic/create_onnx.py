@@ -1,54 +1,37 @@
-#!/usr/bin/env python3
-# This file is covered by the LICENSE file in the root of this project.
-
 import argparse
 import datetime
 import os
 import subprocess
 
+import open3d as o3d
 import onnx
 import torch
 import yaml
 import __init__ as Booger
-#  from train.tasks.semantic.modules.user import User
-from train.tasks.semantic.modules.segmentator import *
+from tasks.semantic.modules.user import User
+from tasks.semantic.modules.segmentator import *
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser("./create_onnx.py")
     parser.add_argument(
         '--dataset', '-d',
         type=str,
-        required=False,
-        default="/home/sam/semantic-segmentation/lidar-bonnetal/pennovation_dataset/",
+        required=True,
         help='Dataset to train with. No Default',
     )
     parser.add_argument(
         '--log', '-l',
         type=str,
-        default=os.path.expanduser("~") + '/home/sam/semantic-segmentation/lidar-bonnetal/logs-infer/' +
+        default=os.path.expanduser("~") + '/logs/' +
         datetime.datetime.now().strftime("%Y-%-m-%d-%H:%M") + '/',
-        help='Directory to put the predictions. Default: ~/logs-infer/date+time'
+        help='Directory to put the predictions. Default: ~/logs/date+time'
     )
     parser.add_argument(
         '--model', '-m',
         type=str,
-        required=False,
-        default="/home/sam/semantic-segmentation/lidar-bonnetal/pennovation-darknet53/",
+        required=True,
+        default=None,
         help='Directory to get the trained model.'
-    )
-
-    parser.add_argument(
-        '--height', '-height',
-        type=str,
-        required=False,
-        default=64
-    )
-
-    parser.add_argument(
-        '--width', '-width',
-        type=str,
-        required=False,
-        default=1024
     )
     FLAGS, unparsed = parser.parse_known_args()
 
@@ -89,14 +72,12 @@ if __name__ == '__main__':
         quit()
 
     # create user to access model
-    #  user = User(ARCH, DATA, FLAGS.dataset, FLAGS.log, FLAGS.model)
-    #  model = user.model
-    with torch.no_grad():
-      print(ARCH)
-      print(FLAGS)
-      model = Segmentator(ARCH,
-                          10,
-                          FLAGS.model)
+    user = User(ARCH, DATA, FLAGS.dataset, FLAGS.log, FLAGS.model)
+    model = user.model
+    #with torch.no_grad():
+    #  model = Segmentator(ARCH,
+    #                      3,
+    #                      FLAGS.model)
 
     # report model parameters
     weights_total = sum(p.numel() for p in model.parameters())
@@ -104,17 +85,20 @@ if __name__ == '__main__':
                        for p in model.parameters() if p.requires_grad)
     print("Total number of parameters: ", weights_total)
     print("Total number of parameters requires_grad: ", weights_grad)
-
+    print(DATA)
+    print(ARCH)
+    print(FLAGS)
     # convert to ONNX
     dummy_input = torch.randn(1, 10,
-                              FLAGS.height,
-                              FLAGS.width, device='cuda')
+                              64,
+                              1024, device='cuda')
     # (Pdb) proj_in.shape
     # torch.Size([1, 5, 64, 2048])
     # (Pdb) proj_range.shape (also proj_range)
     # torch.Size([1, 64, 2048])
 
-    model = model.cuda().eval()
+    #model = model.cuda().eval()
+    model = model.eval()
     onnx_path = os.path.join(FLAGS.model, "model.onnx")
     print("saving model in ", onnx_path)
     with torch.no_grad():

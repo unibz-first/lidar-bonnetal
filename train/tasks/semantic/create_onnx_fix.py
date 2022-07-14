@@ -11,7 +11,7 @@ import torch
 import yaml
 import __init__ as Booger
 #  from train.tasks.semantic.modules.user import User
-from train.tasks.semantic.modules.segmentator import *
+from tasks.semantic.modules.segmentator import *
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser("./create_onnx.py")
