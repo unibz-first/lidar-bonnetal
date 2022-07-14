@@ -4,8 +4,8 @@ import open3d as o3d
 import pypcd.pypcd
 from pypcd import *
 import numpy as np
-label_path = r"/home/tomvdon/ag_lab/lidar-bonnetal/farm_dataset/labels_2/"
-path = r"/home/tomvdon/ag_lab/lidar-bonnetal/farm_dataset/labeled_point_clouds_2"
+label_path = r"\\wsl$\Ubuntu\home\tomvdon\code\test\labels\labels\\"
+path = r"\\wsl$\Ubuntu\home\tomvdon\code\test\labels"
 pointclouds = [file for file in os.listdir(path) if file.endswith(".pcd")]
 for p in pointclouds:
     pointcloud = os.path.join(path, p)

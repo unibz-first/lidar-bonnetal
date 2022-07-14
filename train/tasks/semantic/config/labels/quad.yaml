@@ -10,8 +10,8 @@ color_map: # bgr
   2 : [255, 255, 255]
 content: # as a ratio with the total number of points
   0: 1.0
-  1: 0.9
-  2: 0.1
+  1: 0.8
+  2: 0.2
 # classes that are indistinguishable from single scan or inconsistent in
 # ground truth are mapped to their closest equivalent
 learning_map:
@@ -23,7 +23,7 @@ learning_map_inv: # inverse of previous map
   1 : 1     #  bkg
   2 : 2     #  trunk
 learning_ignore: # Ignore classes
-  0: False      # "unlabeled", and others ignored
+  0: True      # "unlabeled", and others ignored
   1: False    # "car"
   2: False    # "car"
 split: # sequence numbers

@@ -92,8 +92,6 @@ if __name__ == '__main__':
     #  user = User(ARCH, DATA, FLAGS.dataset, FLAGS.log, FLAGS.model)
     #  model = user.model
     with torch.no_grad():
-      print(ARCH)
-      print(FLAGS)
       model = Segmentator(ARCH,
                           10,
                           FLAGS.model)
