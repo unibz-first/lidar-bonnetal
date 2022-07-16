@@ -27,14 +27,14 @@ if __name__ == '__main__':
         '--arch_cfg', '-ac',
         type=str,
         required=False,
-        default="./config/arch/darknet53-1024px-pennovation.yaml",
+        default="./config/arch/darknet-smallest-1024px-pennovation.yaml",
         help='Architecture yaml cfg file. See /config/arch for sample. No default!',
     )
     parser.add_argument(
         '--data_cfg', '-dc',
         type=str,
         required=False,
-        default='./config/labels/pennovation.yaml',
+        default='./config/labels/pennovation-open-field.yaml',
         help='Classification yaml cfg file. See /config/labels for sample. No default!',
     )
     parser.add_argument(
@@ -47,7 +47,7 @@ if __name__ == '__main__':
         '--pretrained', '-p',
         type=str,
         required=False,
-        default="../../../pennovation-darknet53",
+        default="../../../pennovation-smallest",
         help='Directory to get the pretrained model. If not passed, do from scratch!'
     )
     FLAGS, unparsed = parser.parse_known_args()

@@ -212,7 +212,7 @@ def convert_images_to_labels_pcds(for_jackle):
     print("mean values of number points for each class / total points are: ")
     percent_array = np.mean(stats, axis=1) / np.sum(np.mean(stats, axis=1))
     print(percent_array)
-    np.savetxt(data_dir + "class_points_divided_by_total_points.txt", percent_array)
+    np.savetxt(data_dir + "class_points_divided_by_total_points.txt", percent_array,fmt='%.7f')
 
 
 if __name__ == '__main__':

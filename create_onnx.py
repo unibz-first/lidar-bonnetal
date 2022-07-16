@@ -106,13 +106,13 @@ if __name__ == '__main__':
     # convert to ONNX
     dummy_input = torch.randn(1, 10,
                               FLAGS.height,
-                              FLAGS.width, device='cuda')
+                              FLAGS.width, device='cpu')
     # (Pdb) proj_in.shape
     # torch.Size([1, 5, 64, 2048])
     # (Pdb) proj_range.shape (also proj_range)
     # torch.Size([1, 64, 2048])
 
-    model = model.cuda().eval()
+    model = model.cpu().eval()
     onnx_path = os.path.join(FLAGS.model, "model.onnx")
     print("saving model in ", onnx_path)
     with torch.no_grad():

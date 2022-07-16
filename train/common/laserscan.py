@@ -152,8 +152,9 @@ class LaserScan:
     depth = np.linalg.norm(self.points, 2, axis=1)
     depth[depth == 0] = 0.0000001 #Stop divide by 0
 
-    # thresholding by range (distance), ignore points that are far away, only consider points within the given range
-    threshold_by_range = False
+    # set range limit, limit range
+    # threshold by range (distance), ignore points that are far away, only consider points within the given range
+    threshold_by_range = True
     if threshold_by_range:
       range_threshold = 30.0
       self.mask = (depth > range_threshold)
