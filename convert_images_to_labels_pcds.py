@@ -81,6 +81,24 @@ def convert_images_to_labels_pcds(for_jackle):
         # label_converted = np.zeros((label.shape[0], label.shape[1]))
         label_converted = label[:,:,0]
 
+        convert_labels_into_specific_class = (for_jackle==False)
+        if convert_labels_into_specific_class:
+            print("converting labels into specific classes (e.g. only keeping car, light pole, trunk, road and background)")
+            # input("Press Enter to confirm and continue, otherwise, kill the program and modify convert_images_to_labels_pcds.py ...")
+            background_label = 0
+            road_label = 1
+            # convert labels of non-car into background
+            label_converted[label_converted==2] = background_label
+            print(f'converting points with vegetation labels into background labels')
+            label_converted[label_converted==3] = background_label
+            print(f'converting points with building labels into background labels')
+            label_converted[label_converted==4] = road_label
+            print(f'converting points with grass/sidewalk labels into road labels')
+            label_converted[label_converted==6] = background_label
+            print(f'converting points with human labels into background labels')
+            label_converted[label_converted==7] = road_label
+            print(f'converting points with gravel labels into road labels')
+
         # stats of number of points to address class imbalance issues
         num_pts = 0
         for i in np.arange(num_classes):

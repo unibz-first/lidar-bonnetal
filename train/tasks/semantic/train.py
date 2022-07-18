@@ -34,7 +34,7 @@ if __name__ == '__main__':
         '--data_cfg', '-dc',
         type=str,
         required=False,
-        default='./config/labels/pennovation-open-field.yaml',
+        default='./config/labels/pennovation.yaml', # pennovation-open-field.yaml
         help='Classification yaml cfg file. See /config/labels for sample. No default!',
     )
     parser.add_argument(
