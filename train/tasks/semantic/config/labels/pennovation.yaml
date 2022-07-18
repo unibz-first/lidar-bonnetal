@@ -92,7 +92,7 @@ content: # as a ratio with the total number of points
   2: 0.0 # 0.07368158 (reduced this weight to 0.5) 2: "vegetation"
   3: 0.0 #  3: "building"
   4: 0.0  #  4: "grass-sidewalk
-  5: 0.010 # 0.0501422  (increased this weight to 3x)  #  5: "vehicle"
+  5: 0.017 # 0.0501422  (increased this weight to 3x)  #  5: "vehicle"
   6: 0.0  #  6: "human"
   7: 0.0  #  7: "gravel"
   8: 0.0013  #  0.0063254 (increased this weight to 5x) 8: "tree_trunk"
