@@ -47,7 +47,7 @@ if __name__ == '__main__':
         '--pretrained', '-p',
         type=str,
         required=False,
-        default="../../../pennovation-smallest",
+        default="../../../pennovation-darknet-smallest",
         help='Directory to get the pretrained model. If not passed, do from scratch!'
     )
     FLAGS, unparsed = parser.parse_known_args()

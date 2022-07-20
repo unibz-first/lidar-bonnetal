@@ -156,7 +156,7 @@ class LaserScan:
     # threshold by range (distance), ignore points that are far away, only consider points within the given range
     threshold_by_range = True
     if threshold_by_range:
-      range_threshold = 50.0
+      range_threshold = 40.0
       self.mask = (depth > range_threshold)
 
       # get scan components
