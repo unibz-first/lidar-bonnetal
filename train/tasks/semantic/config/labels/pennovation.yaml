@@ -52,54 +52,16 @@ color_map: # bgr
 content: # as a ratio with the total number of points
   # training loss weight will be inversely proportional to this, i.e.,
   # self.loss_w = 1 / (content + epsilon_w), see trainer.py
-
-  # raw stats from the data loader:
-  #  [ 0.17279082 0.44709127 0.07368158 0.21926294 0.03276026 0.04045004
-  #    0.00290192 0.00465596 0.00489525 0.00150997 ]
-#  0: 0.17279082 #  0 : "unlabelled"
-#  1: 0.44709127 #  1 : "road"
-#  2: 0.14 # 0.07368158 (reduced this weight to 0.5) 2: "vegetation"
-#  3: 0.21926294 #  3: "building"
-#  4: 0.03276026  #  4: "grass-sidewalk
-#  5: 0.008 # 0.04045004  (increased this weight to 5x)  #  5: "vehicle"
-#  6: 0.00290192  #  6: "human"
-#  7: 0.00465596  #  7: "gravel"
-#  8: 0.000049  #  0.00489525 (increased this weight to 100x) 8: "tree_trunk"
-#  9: 0.000015 # 0.00150997 (increased this weight to 100x)  #  9: "light_pole"
-
-
-
-# raw data from Ankit and Xu:
-
-  # without extra dataset
-#0.6533236
-  #0.2894195
-  #0.0000000
-  #0.0000000
-  #0.0000000
-  #0.0501422
-  #0.0000000
-  #0.0000000
-  #0.0063254
-  #0.0007893
-
-  # with extra dataset
-#  [ 0.65082156 0.28781862 0.         0.         0.         0.05357811
-#    0.         0.         0.00695684 0.00082487 ]
-
-# with only bkg and car
-#[0.65913208 0.30232544 0.         0.         0.         0.03854248
-# 0.         0.         0.         0.        ]
-  0: 0.6899793 #  0 : "unlabelled"
-  1: 0.2948263 #  1 : "road"
-  2: 0.0 # 0.07368158 (reduced this weight to 0.5) 2: "vegetation"
+  0: 0.6781007 #  0 : "unlabelled"
+  1: 0.2949256 #  1 : "road"
+  2: 0.0 # (reduced this weight to 0.5) 2: "vegetation"
   3: 0.0 #  3: "building"
   4: 0.0  #  4: "grass-sidewalk
-  5: 0.0151944 # 0.0151944  (increased this weight to 1x)  #  5: "vehicle"
+  5: 0.0227304 #  (increased this weight to 1x)  #  5: "vehicle"
   6: 0.0  #  6: "human"
   7: 0.0  #  7: "gravel"
-  8: 0.0  #  0.0063254 (increased this weight to 5x) 8: "tree_trunk"
-  9: 0.0 # 0.0007893 (increased this weight to 5x)  #  9: "light_pole"
+  8: 0.0022858  # (increased this weight to 1x) 8: "tree_trunk"
+  9: 0.0019575 # (increased this weight to 1x)  #  9: "light_pole"
 
 
 
@@ -131,16 +93,6 @@ learning_map_inv: # inverse of previous map
   9 : 9
 
 learning_ignore: # Ignore classes
-#  0: "unlabelled"
-#  1: "road"
-#  2: "vegetation"
-#  3: "building"
-#  4: "grass-sidewalk"
-#  5: "vehicle"
-#  6: "human"
-#  7: "gravel"
-#  8: "tree_trunk"
-#  9: "light_pole"
   0: False
   1: False
   2: True

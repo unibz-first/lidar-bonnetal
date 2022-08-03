@@ -87,24 +87,31 @@ def convert_images_to_labels_pcds(for_jackle):
             # input("Press Enter to confirm and continue, otherwise, kill the program and modify convert_images_to_labels_pcds.py ...")
             background_label = 0
             road_label = 1
+
             # convert labels of non-car into background
             label_converted[label_converted==0] = background_label
             label_converted[label_converted==1] = road_label
-            print(f'converting points with gravel labels into road labels')
+
             label_converted[label_converted==2] = background_label
             print(f'converting points with vegetation labels into background labels')
+
             label_converted[label_converted==3] = background_label
             print(f'converting points with building labels into background labels')
+
             label_converted[label_converted==4] = road_label
             print(f'converting points with grass/sidewalk labels into road labels')
+
             label_converted[label_converted==6] = background_label
             print(f'converting points with human labels into background labels')
+
             label_converted[label_converted==7] = road_label
             print(f'converting points with gravel labels into road labels')
-            label_converted[label_converted==8] = background_label
-            print(f'converting points with trunk labels into background labels')
-            label_converted[label_converted==9] = background_label
-            print(f'converting points with light pole labels into background labels')
+
+            # convert trunk and light pole labels as well
+            # label_converted[label_converted==8] = background_label
+            # print(f'converting points with trunk labels into background labels')
+            # label_converted[label_converted==9] = background_label
+            # print(f'converting points with light pole labels into background labels')
 
         # stats of number of points to address class imbalance issues
         num_pts = 0
