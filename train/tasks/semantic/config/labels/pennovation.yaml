@@ -52,16 +52,32 @@ color_map: # bgr
 content: # as a ratio with the total number of points
   # training loss weight will be inversely proportional to this, i.e.,
   # self.loss_w = 1 / (content + epsilon_w), see trainer.py
-  0: 0.6750436 #  0 : "unlabelled"
-  1: 0.2980813 #  1 : "road"
+
+  # For Jiuzhou and Derek:
+  0: 0.7044882 #  0 : "unlabelled"
+  1: 0.1786405 #  1 : "road"
   2: 0.0 # (reduced this weight to 0.5) 2: "vegetation"
   3: 0.0 #  3: "building"
   4: 0.0  #  4: "grass-sidewalk
-  5: 0.0234012 #  (increased this weight to 1x)  #  5: "vehicle"
+  5: 0.0103106 #  (increased this weight to 5x)  #  5: "vehicle"
   6: 0.0  #  6: "human"
   7: 0.0  #  7: "gravel"
-  8: 0.0018808  # (increased this weight to 1x) 8: "tree_trunk"
-  9: 0.0015931 # (increased this weight to 1x)  #  9: "light_pole"
+  8: 0.0135607  # (increased this weight to 5x) 8: "tree_trunk"
+  9: 0.0 # (increased this weight to 1x)  #  9: "light_pole"
+
+
+
+  # For Ankit and Xu:
+  # 0: 0.6750436 #  0 : "unlabelled"
+  # 1: 0.2980813 #  1 : "road"
+  # 2: 0.0 # (reduced this weight to 0.5) 2: "vegetation"
+  # 3: 0.0 #  3: "building"
+  # 4: 0.0  #  4: "grass-sidewalk
+  # 5: 0.0234012 #  (increased this weight to 1x)  #  5: "vehicle"
+  # 6: 0.0  #  6: "human"
+  # 7: 0.0  #  7: "gravel"
+  # 8: 0.0018808  # (increased this weight to 1x) 8: "tree_trunk"
+  # 9: 0.0015931 # (increased this weight to 1x)  #  9: "light_pole"
 
 
 

@@ -20,7 +20,7 @@ if __name__ == '__main__':
         '--dataset_root_directory', '-d',
         type=str,
         required=False,
-        default="../../../pennovation_dataset/",
+        default="../../../indoor_dataset/", # pennovation_dataset
         help='Dataset to train with. No Default',
     )
     parser.add_argument(
@@ -47,7 +47,7 @@ if __name__ == '__main__':
         '--pretrained', '-p',
         type=str,
         required=False,
-        default="../../../pennovation-darknet-smallest",
+        default="../../../indoor-darknet-smallest", # pennovation-darknet-smallest
         help='Directory to get the pretrained model. If not passed, do from scratch!'
     )
     FLAGS, unparsed = parser.parse_known_args()
