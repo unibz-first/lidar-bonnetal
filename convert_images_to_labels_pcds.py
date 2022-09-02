@@ -12,11 +12,14 @@ from termcolor import colored
 import traceback
 
 
-def convert_images_to_labels_pcds(for_jackle):
+def convert_images_to_labels_pcds(for_jackle, for_indoor = False):
     if for_jackle:
         data_dir = "/home/sam/semantic-segmentation/lidar-bonnetal/pennovation_dataset_jackle/"
     else:
-        data_dir = "/home/sam/semantic-segmentation/lidar-bonnetal/pennovation_dataset/"
+        if for_indoor:
+            data_dir = "/home/sam/semantic-segmentation/lidar-bonnetal/indoor_dataset/"
+        else:
+            data_dir = "/home/sam/semantic-segmentation/lidar-bonnetal/pennovation_dataset/"
 
     if for_jackle:
         fnames = glob.glob(data_dir + "labels/sweep*.png")  # start with sweep to avoid including the viz_ stuff

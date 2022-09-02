@@ -37,8 +37,8 @@ class BasicBlock(nn.Module):
 
 # number of layers per model
 model_blocks = {
-    21: [1, 1, 2, 2, 1],
-    53: [1, 2, 8, 8, 4],
+    21: [1, 1, 2, 2, 1], #7
+    53: [1, 2, 8, 8, 4], #23
 }
 
 

@@ -6,13 +6,17 @@ from sklearn.model_selection import train_test_split
 import shutil
 import re
 
-def train_test_split_save(for_jackle):
+def train_test_split_save(for_jackle, for_indoor = False):
     if for_jackle:
         dataset_name = "pennovation_dataset_jackle"
         label_prefix = "label_sweep"
     else:
-        dataset_name = "pennovation_dataset"
-        label_prefix = "label"
+        if for_indoor:
+            dataset_name = "indoor_dataset"
+            label_prefix = "label"
+        else:
+            dataset_name = "pennovation_dataset"
+            label_prefix = "label"
     cloud_dir = "/home/sam/semantic-segmentation/lidar-bonnetal/"+dataset_name+"/converted_scans/"
     label_dir = "/home/sam/semantic-segmentation/lidar-bonnetal/"+dataset_name+"/converted_labels/"
     save_dir = "/home/sam/semantic-segmentation/lidar-bonnetal/"+dataset_name+"/"
