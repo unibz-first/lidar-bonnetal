@@ -55,7 +55,7 @@ python train_test_split.py
 ### Step: preparing data
 Create `pennovation_dataset` folder in the root directory of this repo.
 
-Download data from https://drive.google.com/drive/folders/16MSQf-tdD1QTYpVVtElMy1enAQv7hFAR?usp=sharing
+Download data from https://drive.google.com/drive/folders/1x93D_17G6UyWZoD7NvXacXGUzZZ6G2Wi?usp=sharing
 
 Unzip file and then, copy `labels` and `scans` folders into `pennovation_dataset` folder (folder structure looks like this: lidar-bonnetal->pennovation_dataset->lables), then run:
 
