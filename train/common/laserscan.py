@@ -154,7 +154,7 @@ class LaserScan:
 
     # set range limit, limit range
     # threshold by range (distance), ignore points that are far away, only consider points within the given range
-    threshold_by_range = True
+    threshold_by_range = False # TODO this seems to have some issues on some LIDAR scans...
     if threshold_by_range:
       range_threshold = 40.0
       self.mask = (depth > range_threshold)
