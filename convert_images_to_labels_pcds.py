@@ -89,7 +89,10 @@ def convert_images_to_labels_pcds(for_jackle, for_indoor = False):
             print("converting labels into specific classes (e.g. only keeping car, light pole, trunk, road and background)")
             # input("Press Enter to confirm and continue, otherwise, kill the program and modify convert_images_to_labels_pcds.py ...")
             background_label = 0
-            road_label = 1
+            if for_indoor:
+                road_label = 0
+            else:
+                road_label = 1
 
             # convert labels of non-car into background
             label_converted[label_converted==0] = background_label
