@@ -103,7 +103,7 @@ cd ./train/tasks/semantic
 ### Step: preparing data
 Create folders named range_images and simulated_data in the root directory of this repo.
 
-Download data from https://drive.google.com/file/d/16-E5LDpmAMsvXxg0M3jdFZYYVAXDt2I-/view?usp=sharing
+Download data from https://drive.google.com/drive/folders/16MSQf-tdD1QTYpVVtElMy1enAQv7hFAR?usp=sharing
 
 Put data into simulated_data folder (folder structure looks like this: lidar-bonnetal->simulated_data->sequences)
 
