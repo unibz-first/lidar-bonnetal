@@ -24,7 +24,7 @@ train:
 # backbone parameters
 ################################################################################
 backbone:
-  name: "basic_darknet"  # ['squeezeseg', 'squeezesegV2', 'darknet']
+  name: "darknet"  # ['squeezeseg', 'squeezesegV2', 'darknet']
   input_depth:
     range: True
     xyz: True
@@ -34,13 +34,13 @@ backbone:
   OS: 8 # output stride (only horizontally)
   train: True # train backbone?
   extra:
-    layers: 1
+    layers: 13 # 13 is our customized smallest model, 21 is darknet-21, 53 is darknet 53
 
 ################################################################################
 # decoder parameters
 ################################################################################
 decoder:
-  name: "basic_darknet"
+  name: "darknet"
   dropout: 0.01
   bn_d: 0.01
   train: True # train decoder?
