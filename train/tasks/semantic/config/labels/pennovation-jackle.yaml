@@ -74,14 +74,14 @@ content: # as a ratio with the total number of points
 # 0.0025242
 # 0.0000000
 # 0.0000000
-  0: 0.1929972 #  0 : "unlabelled"
-  1: 0.3896135 #  1 : "road"
-  2: 0.1297902 #  2: "vegetation"
-  3: 0.1573477 #  3: "building"
-  4: 0.0978754  #  4: "grass-sidewalk
-  5: 0.0266921  #  5: "vehicle"
-  6: 0.0031597  #  6: "human"
-  7: 0.0025242  #  7: "gravel"
+  0: 0.6505750 #  0 : "unlabelled"
+  1: 0.1950798 #  1 : "road"
+  2: 0.0701022 #  2: "vegetation"
+  3: 0.0304683 #  3: "building"
+  4: 0.0126586  #  4: "grass-sidewalk
+  5: 0.0399787  #  5: "vehicle"
+  6: 0.0010986  #  6: "human"
+  7: 0.0000387  #  7: "gravel"
   8: 0.0  #  8: "tree_trunk"
   9: 0.0  #  9: "light_pole"
 

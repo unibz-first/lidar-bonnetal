@@ -5,11 +5,14 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 import shutil
 import re
+import time
 
 def train_test_split_save(for_jackle, for_indoor = False):
     if for_jackle:
         dataset_name = "pennovation_dataset_jackle"
-        label_prefix = "label_sweep"
+        label_prefix = "label_pano" #"label_sweep"
+        print("Confirm that this is correct: prefix for the LIDAR data is :", label_prefix)
+        time.sleep(2)
     else:
         if for_indoor:
             dataset_name = "indoor_dataset"

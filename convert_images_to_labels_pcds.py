@@ -22,7 +22,10 @@ def convert_images_to_labels_pcds(for_jackle, for_indoor = False):
             data_dir = "/home/sam/semantic-segmentation/lidar-bonnetal/pennovation_dataset/"
 
     if for_jackle:
-        fnames = glob.glob(data_dir + "labels/sweep*.png")  # start with sweep to avoid including the viz_ stuff
+        prefix = "pano" # "sweep"
+        fnames = glob.glob(data_dir + "labels/"+prefix+"*.png") 
+        print("Confirm that this is correct: prefix for the LIDAR data is :", prefix)
+        time.sleep(2)
     else:
         fnames = glob.glob(data_dir + "labels/1*.png") # start with 1 to avoid including the viz_ stuff
 
