@@ -45,6 +45,7 @@ decoder:
   bn_d: 0.01
   train: True # train decoder?
   extra: False # nothing to add for this decoder, otherwise this is a dict
+  lightweight_decoder: True # use our customized smallest model
 
 ################################################################################
 # classification head parameters
