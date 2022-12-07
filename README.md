@@ -85,7 +85,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 ```
 
 ### Optional step: download pretrained model:
-# (this step is optional, if not, it will train from scratch)
+*(this step is optional, if not, it will train from scratch)*
 
 Create a folder called `pennovation-darknet53` in the root directory of this repo.
 
@@ -93,10 +93,9 @@ Download pre-trained model from [this link](http://www.ipb.uni-bonn.de/html/proj
 
 
 ### Step: start training:
-Go to `lidar-bonnetal/train/tasks/semantic`, modify the directory and yaml flags in train.py to make sure that it points to the correct folder and correct model type (smallest, darknet-21, or darknet-53):
+Go to `lidar-bonnetal/train/tasks/semantic`, modify the directory and yaml flags in train.py to make sure that it points to the correct folder and correct model type (smallest, darknet-21, or darknet-53), then start training:
 ```
-cd ./train/tasks/semantic
-./train-full-script-pennovation.sh
+python train.py
 ```
 
 
