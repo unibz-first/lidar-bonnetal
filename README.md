@@ -53,25 +53,24 @@ python train_test_split.py
 ## Step-by-step instructions with our example data (pennovation)
 
 ### Step: preparing data
-Create `pennovation_dataset` folder in the root directory of this repo.
+Create `pennovation_dataset` folder in the root directory (lidar-bonnetal) of this repo.
 
 Download data from https://drive.google.com/drive/folders/1x93D_17G6UyWZoD7NvXacXGUzZZ6G2Wi?usp=sharing
 
-Unzip file and then, copy `labels` and `scans` folders into `pennovation_dataset` folder (folder structure looks like this: lidar-bonnetal->pennovation_dataset->lables), then run:
+Unzip file and then, copy `labels` and `scans` folders into `pennovation_dataset` folder (folder structure looks like this: lidar-bonnetal->pennovation_dataset->lables), then go to  the root directory (lidar-bonnetal), and do the following:
+
+Open file `full_data_prepreocessor.py`, make sure that `for_jackle = False` and `for_indoor = False`. 
 
 ```python full_data_preprocessor.py```
 
 This will automatically convert range images into `.pcd` files, and labels into `.npy` files. In addition, this will automatically create training, validation, and test set for you in `pennovation_dateset/sequences` folder, where `00` is training set, `01` is validation set, and `02` is test set.
 
 ### Step: Installing dependencies
-Option 1. Using pip:
+Using pip:
 ```
 cd train
-pip install -r requirements.txt
 ```
-Note: this will take a while (> 1 hour for me)
-
-Option 2. Using conda: see conda_requirements.txt
+check what is in requirements.txt and install these pkgs
 
 Troubleshooting:
 
@@ -85,13 +84,16 @@ sudo ln -s /usr/local/cuda-11.0/lib64/libcudart.so.11.0
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 ```
 
-### Step: download pretrained model:
+### Optional step: download pretrained model:
+# (this step is optional, if not, it will train from scratch)
+
 Create a folder called `pennovation-darknet53` in the root directory of this repo.
 
 Download pre-trained model from [this link](http://www.ipb.uni-bonn.de/html/projects/bonnetal/lidar/semantic/models/darknet53-1024.tar.gz), extract all files,  Then copy all files into `pennovation-darknet53` folder.
 
 
 ### Step: start training:
+Go to `lidar-bonnetal/train/tasks/semantic`, modify the directory and yaml flags in train.py to make sure that it points to the correct folder and correct model type (smallest, darknet-21, or darknet-53):
 ```
 cd ./train/tasks/semantic
 ./train-full-script-pennovation.sh
