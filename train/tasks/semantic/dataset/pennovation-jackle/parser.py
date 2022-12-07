@@ -48,6 +48,13 @@ class SemanticKitti(Dataset):
                                         dtype=torch.float)
     self.sensor_fov_up = sensor["fov_up"]
     self.sensor_fov_down = sensor["fov_down"]
+    if "ignore_intensity" in sensor:
+      self.ignore_intensity = sensor["ignore_intensity"]
+      print(f"\nIgnore intensity is set as: ", self.ignore_intensity, "\n")
+    else:
+      print(f"default: use intensity data")
+      self.ignore_intensity = False
+
     self.max_points = max_points
     self.gt = gt
 
@@ -132,7 +139,11 @@ class SemanticKitti(Dataset):
     pcd = o3d.io.read_point_cloud(scan_file)
     scan_points = (np.asarray(pcd.points))
     pc = pypcd.PointCloud.from_path(scan_file)
-    scan_remissions = pc.pc_data['intensity']
+    if self.ignore_intensity:
+      scan_remissions = np.zeros_like(pc.pc_data['intensity'])
+    else:
+      scan_remissions = pc.pc_data['intensity']
+
     
     # check scan makes sense
     if not isinstance(scan_points, np.ndarray):

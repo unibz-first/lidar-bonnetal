@@ -43,7 +43,7 @@ decoder:
   name: "darknet"
   dropout: 0.01
   bn_d: 0.01
-  train: True # train decoder?
+  train: False # train decoder?
   extra: False # nothing to add for this decoder, otherwise this is a dict
   lightweight_decoder: True # use our customized smallest model
 
@@ -99,3 +99,4 @@ dataset:
       - 6.91
       - 0.86
       - 130
+    ignore_intensity: True

@@ -42,8 +42,8 @@ class Decoder(nn.Module):
 
   def __init__(self, params, stub_skips, OS=32, feature_depth=1024):
     super(Decoder, self).__init__()
-    self.backbone_OS = OS
-    self.backbone_feature_depth = feature_depth
+    self.backbone_OS = OS # will be set properly according to backbone
+    self.backbone_feature_depth = feature_depth # will be set properly according to backbone
     self.drop_prob = params["dropout"]
     self.bn_d = params["bn_d"]
     self.use_lightweight_decoder = params["lightweight_decoder"]
