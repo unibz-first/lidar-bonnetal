@@ -65,6 +65,43 @@ Open file `full_data_prepreocessor.py`, make sure that `for_jackle = False` and 
 
 This will automatically convert range images into `.pcd` files, and labels into `.npy` files. In addition, this will automatically create training, validation, and test set for you in `pennovation_dateset/sequences` folder, where `00` is training set, `01` is validation set, and `02` is test set.
 
+### Step: update weights for class imbalance
+
+This will also calculate the percentage of points belonging to each classes across all point clouds, and save it in `pennovation_dataset/class_points_divided_by_total_points.txt`, copy the numbers inside, and updated the corresponding YAML data config file with them:
+
+```
+cd lidar-bonnetal/train/tasks/semantic/config/labels
+```
+
+Open `pennovation.yaml` file, go to content section, and update the numbers of class 0-9. For example, in your `pennovation_dataset/class_points_divided_by_total_points.txt` file, the result is 
+```
+0.6750436
+0.2980813
+0.0000000
+0.0000000
+0.0000000
+0.0234012
+0.0000000
+0.0000000
+0.0018808
+0.0015931
+```
+Then in your `lidar-bonnetal/train/tasks/semantic/config/labels/pennovation.yaml`, it should have the following:
+```
+content:
+  0: 0.6750436 #  0 : "unlabelled"
+  1: 0.2980813 #  1 : "road"
+  2: 0.0 #  2: "vegetation"
+  3: 0.0 #  3: "building"
+  4: 0.0  #  4: "grass-sidewalk
+  5: 0.0234012 #   #  5: "vehicle"
+  6: 0.0  #  6: "human"
+  7: 0.0  #  7: "gravel"
+  8: 0.0018808 # 8: "tree_trunk"
+  9: 0.0015931 # #  9: "light_pole"
+```
+
+
 ### Step: Installing dependencies
 Using pip:
 ```
