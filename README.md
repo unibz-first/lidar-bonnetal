@@ -52,6 +52,8 @@ python train_test_split.py
 
 ## Step-by-step instructions with our example data (pennovation)
 
+See here for more details: https://docs.google.com/document/d/1Cvy4RtZw8QIK-XK1gJOR-VbTFRVPSalkoFry5Ij39cY/edit?usp=sharing
+
 ### Step: preparing data
 Create `pennovation_dataset` folder in the root directory (lidar-bonnetal) of this repo.
 
