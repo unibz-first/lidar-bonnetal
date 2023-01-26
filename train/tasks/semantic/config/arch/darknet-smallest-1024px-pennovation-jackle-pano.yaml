@@ -32,7 +32,7 @@ backbone:
   dropout: 0.01
   bn_d: 0.01
   OS: 8 # output stride (only horizontally)
-  train: True # train backbone?
+  train: False # train backbone?
   extra:
     layers: 13 # 13 is our customized smallest model, 21 is darknet-21, 53 is darknet 53
 
@@ -43,7 +43,7 @@ decoder:
   name: "darknet"
   dropout: 0.01
   bn_d: 0.01
-  train: False # train decoder?
+  train: True # train decoder?
   extra: False # nothing to add for this decoder, otherwise this is a dict
   lightweight_decoder: True # use our customized smallest model
 

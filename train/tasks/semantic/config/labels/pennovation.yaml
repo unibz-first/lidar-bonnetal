@@ -53,17 +53,31 @@ content: # as a ratio with the total number of points
   # training loss weight will be inversely proportional to this, i.e.,
   # self.loss_w = 1 / (content + epsilon_w), see trainer.py
 
-  # For Jiuzhou and Derek:
-  0: 0.8722068 #  0 : "unlabelled"
+  # virginia tech forest
+  0: 0.6584867 #  0 : "unlabelled"
   1: 0.00 #  1 : "road"
-  2: 0.0 # (reduced this weight to 0.5) 2: "vegetation"
+  2: 0.0 #  2: "vegetation"
   3: 0.0 #  3: "building"
   4: 0.0  #  4: "grass-sidewalk
-  5: 0.013 #  (increased this weight to 5x)  #  5: "vehicle"
+  5: 0.0 #   #  5: "vehicle"
   6: 0.0  #  6: "human"
   7: 0.0  #  7: "gravel"
-  8: 0.012 # (increased this weight to 5x) 8: "tree_trunk"
-  9: 0.0 # (increased this weight to 1x)  #  9: "light_pole"
+  8: 0.3415133 # 8: "tree_trunk"
+  9: 0.0 #  #  9: "light_pole"
+
+
+
+#  # For Jiuzhou and Derek:
+#  0: 0.8722068 #  0 : "unlabelled"
+#  1: 0.00 #  1 : "road"
+#  2: 0.0 # (reduced this weight to 0.5) 2: "vegetation"
+#  3: 0.0 #  3: "building"
+#  4: 0.0  #  4: "grass-sidewalk
+#  5: 0.013 #  (increased this weight to 5x)  #  5: "vehicle"
+#  6: 0.0  #  6: "human"
+#  7: 0.0  #  7: "gravel"
+#  8: 0.012 # (increased this weight to 5x) 8: "tree_trunk"
+#  9: 0.0 # (increased this weight to 1x)  #  9: "light_pole"
 
 
 
