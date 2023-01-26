@@ -52,26 +52,64 @@ python train_test_split.py
 
 ## Step-by-step instructions with our example data (pennovation)
 
+See here for more details: https://docs.google.com/document/d/1Cvy4RtZw8QIK-XK1gJOR-VbTFRVPSalkoFry5Ij39cY/edit?usp=sharing
+
 ### Step: preparing data
-Create `pennovation_dataset` folder in the root directory of this repo.
+Create `pennovation_dataset` folder in the root directory (lidar-bonnetal) of this repo.
 
 Download data from https://drive.google.com/drive/folders/1x93D_17G6UyWZoD7NvXacXGUzZZ6G2Wi?usp=sharing
 
-Unzip file and then, copy `labels` and `scans` folders into `pennovation_dataset` folder (folder structure looks like this: lidar-bonnetal->pennovation_dataset->lables), then run:
+Unzip file and then, copy `labels` and `scans` folders into `pennovation_dataset` folder (folder structure looks like this: lidar-bonnetal->pennovation_dataset->lables), then go to  the root directory (lidar-bonnetal), and do the following:
+
+Open file `full_data_prepreocessor.py`, make sure that `for_jackle = False` and `for_indoor = False`. 
 
 ```python full_data_preprocessor.py```
 
 This will automatically convert range images into `.pcd` files, and labels into `.npy` files. In addition, this will automatically create training, validation, and test set for you in `pennovation_dateset/sequences` folder, where `00` is training set, `01` is validation set, and `02` is test set.
 
+### Step: update weights for class imbalance
+
+This will also calculate the percentage of points belonging to each classes across all point clouds, and save it in `pennovation_dataset/class_points_divided_by_total_points.txt`, copy the numbers inside, and updated the corresponding YAML data config file with them:
+
+```
+cd lidar-bonnetal/train/tasks/semantic/config/labels
+```
+
+Open `pennovation.yaml` file, go to content section, and update the numbers of class 0-9. For example, in your `pennovation_dataset/class_points_divided_by_total_points.txt` file, the result is 
+```
+0.6750436
+0.2980813
+0.0000000
+0.0000000
+0.0000000
+0.0234012
+0.0000000
+0.0000000
+0.0018808
+0.0015931
+```
+Then in your `lidar-bonnetal/train/tasks/semantic/config/labels/pennovation.yaml`, it should have the following:
+```
+content:
+  0: 0.6750436 #  0 : "unlabelled"
+  1: 0.2980813 #  1 : "road"
+  2: 0.0 #  2: "vegetation"
+  3: 0.0 #  3: "building"
+  4: 0.0  #  4: "grass-sidewalk
+  5: 0.0234012 #   #  5: "vehicle"
+  6: 0.0  #  6: "human"
+  7: 0.0  #  7: "gravel"
+  8: 0.0018808 # 8: "tree_trunk"
+  9: 0.0015931 # #  9: "light_pole"
+```
+
+
 ### Step: Installing dependencies
-Option 1. Using pip:
+Using pip:
 ```
 cd train
-pip install -r requirements.txt
 ```
-Note: this will take a while (> 1 hour for me)
-
-Option 2. Using conda: see conda_requirements.txt
+check what is in requirements.txt and install these pkgs
 
 Troubleshooting:
 
@@ -85,16 +123,18 @@ sudo ln -s /usr/local/cuda-11.0/lib64/libcudart.so.11.0
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 ```
 
-### Step: download pretrained model:
+### Optional step: download pretrained model:
+*(this step is optional, if not, it will train from scratch)*
+
 Create a folder called `pennovation-darknet53` in the root directory of this repo.
 
 Download pre-trained model from [this link](http://www.ipb.uni-bonn.de/html/projects/bonnetal/lidar/semantic/models/darknet53-1024.tar.gz), extract all files,  Then copy all files into `pennovation-darknet53` folder.
 
 
 ### Step: start training:
+Go to `lidar-bonnetal/train/tasks/semantic`, modify the directory and yaml flags in train.py to make sure that it points to the correct folder and correct model type (smallest, darknet-21, or darknet-53), then start training:
 ```
-cd ./train/tasks/semantic
-./train-full-script-pennovation.sh
+python train.py
 ```
 
 
