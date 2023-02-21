@@ -113,8 +113,12 @@ def convert_images_to_labels_pcds(for_jackle, for_indoor = False):
             label_converted[label_converted==6] = background_label
             print(f'converting points with human labels into background labels')
 
-            label_converted[label_converted==7] = road_label
-            print(f'converting points with gravel labels into road labels')
+
+
+            # disable this convertion for map merging where UGVs use the gravel class
+            #  label_converted[label_converted==7] = road_label
+            #  print(f'converting points with gravel labels into road labels')
+
 
             # convert trunk and light pole labels as well
             # label_converted[label_converted==8] = background_label
