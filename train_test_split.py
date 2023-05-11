@@ -7,22 +7,23 @@ import shutil
 import re
 import time
 
-def train_test_split_save(for_jackle, for_indoor = False):
+def train_test_split_save(for_jackle, for_indoor, args):
     if for_jackle:
-        dataset_name = "pennovation_dataset_jackle"
+        # Maybe dataset_name is redundant and can be removed
+        dataset_name = args["data_dir"].split("/")[-2]
         label_prefix = "label_pano" #"label_sweep"
         print("Confirm that this is correct: prefix for the LIDAR data is :", label_prefix)
         time.sleep(2)
     else:
         if for_indoor:
-            dataset_name = "indoor_dataset"
+            dataset_name = args["data_dir"].split("/")[-2]
             label_prefix = "label"
         else:
-            dataset_name = "pennovation_dataset"
+            dataset_name = args["data_dir"].split("/")[-2]
             label_prefix = "label"
-    cloud_dir = "/home/sam/semantic-segmentation/lidar-bonnetal/"+dataset_name+"/converted_scans/"
-    label_dir = "/home/sam/semantic-segmentation/lidar-bonnetal/"+dataset_name+"/converted_labels/"
-    save_dir = "/home/sam/semantic-segmentation/lidar-bonnetal/"+dataset_name+"/"
+    cloud_dir = args["data_dir"]+"converted_scans/"
+    label_dir = args["data_dir"]+"converted_labels/"
+    save_dir = args["data_dir"]
     clouds = glob.glob(cloud_dir + 'point_cloud_*.pcd')
     test_portion = 0.1
     print("percentage of data splited as test set: ", test_portion)

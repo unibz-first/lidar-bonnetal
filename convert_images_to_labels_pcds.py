@@ -1,7 +1,6 @@
 # Convert the Ian label tool's output labels into npy labels, and the range image input into pcd files
 import time
 
-import open3d as o3d
 import numpy as np
 import glob
 import cv2
@@ -12,14 +11,14 @@ from termcolor import colored
 import traceback
 
 
-def convert_images_to_labels_pcds(for_jackle, for_indoor = False):
+def convert_images_to_labels_pcds(for_jackle, for_indoor, args):
     if for_jackle:
-        data_dir = "/home/sam/semantic-segmentation/lidar-bonnetal/pennovation_dataset_jackle/"
+        data_dir = args["data_dir"]
     else:
         if for_indoor:
-            data_dir = "/home/sam/semantic-segmentation/lidar-bonnetal/indoor_dataset/"
+            data_dir = args["data_dir"]
         else:
-            data_dir = "/home/sam/semantic-segmentation/lidar-bonnetal/pennovation_dataset/"
+            data_dir = args["data_dir"]
 
     if for_jackle:
         prefix = "pano" # "sweep"
@@ -261,4 +260,5 @@ def convert_images_to_labels_pcds(for_jackle, for_indoor = False):
 
 
 if __name__ == '__main__':
+  
     convert_images_to_labels_pcds(for_jackle=False)
