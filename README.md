@@ -1,6 +1,9 @@
 
 # Specific instructions for our use:
 
+## Step by Step Instructions
+A new set of detailed step by step instructions for setting up the package requirements, directory structure and training the model can be found here https://docs.google.com/document/d/1Cvy4RtZw8QIK-XK1gJOR-VbTFRVPSalkoFry5Ij39cY/edit#
+
 
 ## Important notes:
 Make sure you read all the yaml files that you're using during training. For example, for pennovation and forest dataset, you can check train-script-\*.sh files in [this folder](https://github.com/XuRobotics/lidar-bonnetal/tree/master/train/tasks/semantic) for the yaml files that you're using. 
