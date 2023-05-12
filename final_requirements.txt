@@ -1,0 +1,15 @@
+numpy>=1.20.3
+scipy
+torch
+torchvision
+tensorflow-cpu==2.2.0
+protobuf=3.20.0
+vispy
+opencv_contrib_python
+matplotlib
+Pillow
+PyYAML
+pypcd @ git+https://github.com/klintan/pypcd.git@144478abe12b4876567cc04cd8fc310ffa62864a
+termcolor
+scikit-learn
+open3d
