@@ -1,0 +1,45 @@
+# This file is covered by the LICENSE file in the root of this project.
+name: "kitti"
+labels: 
+  0 : "unlabeled"
+  1 : "outlier"
+  2 : "ground"
+  3 : "tree"  # isnstanceable ... 
+  98: "auto-ground"
+color_map: # bgr
+  0 : [0, 0, 0]
+  1 : [0, 0, 0]
+  2 : [0, 0, 255]
+  3 : [255, 255, 255]
+  98: [0, 0, 255]
+content: # as a ratio with the total number of points
+  0: 0.6  # unlabeled
+  1: 0.01 # outliers
+  2: 0.01  # ground (low)
+  3: 0.2  # tree
+  98: 0.18 # 
+# TODO: MAKE WORK->*.pcd: class_points_divided_by_total_points.py script
+# classes that are indistinguishable from single scan or inconsistent in
+# ground truth are mapped to their closest equivalent
+learning_map:
+  0 : 0     # "unlabeled"
+  1 : 0     # outlier -> unlabeled
+  2 : 1     #  ground
+  3 : 2     #  "tree" (only trunks labeled)
+  98: 1     # autoground
+learning_map_inv: # inverse of previous map
+  0 : 0     # "unlabeled"
+  1 : 2     #  bkg
+  2 : 3     #  trunk (sloam-specific)
+
+learning_ignore: # Ignore classes
+  0: True      # "unlabeled", and others ignored
+  1: False    # "bkg"
+  2: False    # "trunk"
+split: # sequence numbers
+  train:
+    - 0
+  valid:
+    - 1
+  test:
+    - 2
