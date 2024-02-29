@@ -7,7 +7,7 @@ class LaserScan:
   """Class that contains LaserScan with x,y,z,r"""
   EXTENSIONS_SCAN = ['.bin']
 
-  def __init__(self, project=False, H=64, W=1024, fov_up=3.0, fov_down=-25.0):
+  def __init__(self, project=False, H=32, W=2000, fov_up=15.0, fov_down=-16.0):
     self.project = project
     self.proj_H = H
     self.proj_W = W
@@ -73,10 +73,11 @@ class LaserScan:
     # if all goes well, open pointcloud
     scan = np.fromfile(filename, dtype=np.float32)
     scan = scan.reshape((-1, 4))
-
     # put in attribute
     points = scan[:, 0:3]    # get xyz
     remissions = scan[:, 3]  # get remission
+
+
     self.set_points(points, remissions)
 
   def set_points(self, points, remissions=None):
@@ -101,6 +102,7 @@ class LaserScan:
       self.remissions = np.zeros((points.shape[0]), dtype=np.float32)
 
     # if projection is wanted, then do it and fill in the structure
+
     if self.project:
       self.do_range_projection()
 
@@ -218,13 +220,13 @@ class SemLaserScan(LaserScan):
     self.proj_sem_label = np.zeros((self.proj_H, self.proj_W),
                                    dtype=np.int32)              # [H,W]  label
     self.proj_sem_color = np.zeros((self.proj_H, self.proj_W, 3),
-                                   dtype=np.float)              # [H,W,3] color
+                                   dtype=np.float32)              # [H,W,3] color
 
     # projection color with instance labels
     self.proj_inst_label = np.zeros((self.proj_H, self.proj_W),
                                     dtype=np.int32)              # [H,W]  label
     self.proj_inst_color = np.zeros((self.proj_H, self.proj_W, 3),
-                                    dtype=np.float)              # [H,W,3] color
+                                    dtype=np.float32)              # [H,W,3] color
 
   def open_label(self, filename):
     """ Open raw scan and fill in attributes
