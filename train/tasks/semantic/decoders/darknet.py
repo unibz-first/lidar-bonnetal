@@ -4,6 +4,8 @@
 import torch.nn as nn
 from collections import OrderedDict
 import torch.nn.functional as F
+# hardware constraints workaround:
+from torch.utils.checkpoint import checkpoint
 
 
 class BasicBlock(nn.Module):
@@ -19,15 +21,25 @@ class BasicBlock(nn.Module):
     self.relu2 = nn.LeakyReLU(0.1)
 
   def forward(self, x):
+    #hardware constraints WAR RTX 3070 8GB
+    def forward_pass(conv, bn, relu, x):
+      x = conv(x)
+      x = bn(x)
+      x = relu(x)
+      return x
+    
     residual = x
 
-    out = self.conv1(x)
-    out = self.bn1(out)
-    out = self.relu1(out)
+    out = checkpoint(forward_pass, self.conv1, self.bn1, self.relu1, x)
+    out = checkpoint(forward_pass, self.conv2, self.bn2, self.relu2, out)
 
-    out = self.conv2(out)
-    out = self.bn2(out)
-    out = self.relu2(out)
+    # out = self.conv1(x)
+    # out = self.bn1(out)
+    # out = self.relu1(out)
+
+    # out = self.conv2(out)
+    # out = self.bn2(out)
+    # out = self.relu2(out)
 
     out += residual
     return out
@@ -106,15 +118,17 @@ class Decoder(nn.Module):
     layers.append(("residual", block(planes[1], planes, bn_d)))
 
     return nn.Sequential(OrderedDict(layers))
-
+  
   def run_layer(self, x, layer, skips, os):
     feats = layer(x)  # up
     if feats.shape[-1] > x.shape[-1]:
       os //= 2  # match skip
+      print("feats shape:", feats.shape)  # print shape of feats
+      print("skips[os] shape:", skips[os].detach().shape)  # print shape of skips[os].detach()
       feats = feats + skips[os].detach()  # add skip
     x = feats
     return x, skips, os
-
+  
   def forward(self, x, skips):
     os = self.backbone_OS
 
