@@ -58,6 +58,7 @@ class SemanticKitti(Dataset):
       print("Sequences folder exists! Using sequences from %s" % self.root)
     else:
       raise ValueError("Sequences folder doesn't exist! Exiting...")
+      print(self.root)
 
     # make sure labels is a dict
     assert(isinstance(self.labels, dict))
@@ -95,6 +96,8 @@ class SemanticKitti(Dataset):
       # check all scans have labels
       if self.gt:
         assert(len(scan_files) == len(label_files))
+        print(len(scan_files))
+        print(len(label_files))
 
       # extend list
       self.scan_files.extend(scan_files)
