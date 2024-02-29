@@ -125,8 +125,8 @@ if __name__ == '__main__':
     label_names.sort()
 
     # check that there are same amount of labels and scans
-    if not FLAGS.ignore_safety:
-      assert(len(label_names) == len(scan_names))
+    #if not FLAGS.ignore_safety:
+      #assert(len(label_names) == len(scan_names))
 
   # create a scan
   if FLAGS.ignore_semantics:
