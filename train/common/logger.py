@@ -8,6 +8,13 @@ try:
 except ImportError:
   from io import BytesIO         # Python 3.x
 
+gpus = tf.config.experimental.list_logical_devices('GPU')
+if gpus:
+  try:
+    for gpu in gpus:
+      tf.config.experimental.set_memory_growth(gpu, True)
+  except RuntimeError as e:
+    print(e)
 
 class Logger(object):
 
@@ -53,28 +60,33 @@ class Logger(object):
 
   def histo_summary(self, tag, values, step, bins=1000):
     """Log a histogram of the tensor of values."""
-
+    # TF v2.x update
+    with self.writer.as_default():
+      tf.summary.histogram(tag, values, step=step, buckets=bins)
+      self.writer.flush()
+    
+    # TF v1.x old
     # Create a histogram using numpy
-    counts, bin_edges = np.histogram(values, bins=bins)
+    # counts, bin_edges = np.histogram(values, bins=bins)
+      
+    # # Fill the fields of the histogram proto
+    # hist = tf.HistogramProto()
+    # hist.min = float(np.min(values))
+    # hist.max = float(np.max(values))
+    # hist.num = int(np.prod(values.shape))
+    # hist.sum = float(np.sum(values))
+    # hist.sum_squares = float(np.sum(values**2))
 
-    # Fill the fields of the histogram proto
-    hist = tf.HistogramProto()
-    hist.min = float(np.min(values))
-    hist.max = float(np.max(values))
-    hist.num = int(np.prod(values.shape))
-    hist.sum = float(np.sum(values))
-    hist.sum_squares = float(np.sum(values**2))
+    # # Drop the start of the first bin
+    # bin_edges = bin_edges[1:]
 
-    # Drop the start of the first bin
-    bin_edges = bin_edges[1:]
+    # # Add bin edges and counts
+    # for edge in bin_edges:
+    #   hist.bucket_limit.append(edge)
+    # for c in counts:
+    #   hist.bucket.append(c)
 
-    # Add bin edges and counts
-    for edge in bin_edges:
-      hist.bucket_limit.append(edge)
-    for c in counts:
-      hist.bucket.append(c)
-
-    # Create and write Summary
-    summary = tf.Summary(value=[tf.Summary.Value(tag=tag, histo=hist)])
-    self.writer.add_summary(summary, step)
-    self.writer.flush()
+    # # Create and write Summary
+    # summary = tf.Summary(value=[tf.Summary.Value(tag=tag, histo=hist)])
+    # self.writer.add_summary(summary, step)
+    # self.writer.flush()
