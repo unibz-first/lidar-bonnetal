@@ -123,8 +123,8 @@ class Decoder(nn.Module):
     feats = layer(x)  # up
     if feats.shape[-1] > x.shape[-1]:
       os //= 2  # match skip
-      print("feats shape:", feats.shape)  # print shape of feats
-      print("skips[os] shape:", skips[os].detach().shape)  # print shape of skips[os].detach()
+      # print("feats shape:", feats.shape)  # print shape of feats
+      # print("skips[os] shape:", skips[os].detach().shape)  # print shape of skips[os].detach()
       feats = feats + skips[os].detach()  # add skip
     x = feats
     return x, skips, os

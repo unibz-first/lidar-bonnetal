@@ -30,7 +30,7 @@ class FireUp(nn.Module):
     self.expand3x3_bn = nn.BatchNorm2d(expand3x3_planes, momentum=self.bn_d)
 
   def forward(self, x):
-    print("FireUp input tensor shape:", x.shape)
+    #print("FireUp input tensor shape:", x.shape)
     x = self.activation(self.squeeze_bn(self.squeeze(x)))
     if self.stride == 2:
       x = self.activation(self.upconv(x))
@@ -99,7 +99,7 @@ class Decoder(nn.Module):
     return x, skips, os
 
   def forward(self, x, skips):
-    print("Decoder input tensor shape:", x.shape)
+    #print("Decoder input tensor shape:", x.shape)
     os = self.backbone_OS
 
     # run layers
