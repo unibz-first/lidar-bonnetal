@@ -30,16 +30,16 @@ class BasicBlock(nn.Module):
     
     residual = x
 
-    out = checkpoint(forward_pass, self.conv1, self.bn1, self.relu1, x)
-    out = checkpoint(forward_pass, self.conv2, self.bn2, self.relu2, out)
+    # out = checkpoint(forward_pass, self.conv1, self.bn1, self.relu1, x)
+    # out = checkpoint(forward_pass, self.conv2, self.bn2, self.relu2, out)
 
-    # out = self.conv1(x)
-    # out = self.bn1(out)
-    # out = self.relu1(out)
+    out = self.conv1(x)
+    out = self.bn1(out)
+    out = self.relu1(out)
 
-    # out = self.conv2(out)
-    # out = self.bn2(out)
-    # out = self.relu2(out)
+    out = self.conv2(out)
+    out = self.bn2(out)
+    out = self.relu2(out)
 
     out += residual
     return out
